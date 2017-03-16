@@ -1,11 +1,21 @@
-<form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
+<div>
+  <h1>List of computers</h1>
 
-  <select [(ngModel)]='computer' #name='ngModel' name='computer' required>
+  <select [(ngModel)]='computer' (change)='onChange()' name='computer'>
     <option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</option>
   </select>
+</div>
 
-  <label for="password">Password: </label>
-  <input name='password' #pass='ngModel' [(ngModel)]='password' type="password" required>
+<div>
+  <div [hidden]='computerState == 1'>
+    <form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
 
-  <input type="submit" value="Submit" [disabled]='form.invalid'>
-</form>
+      <label for="password">Password: </label>
+      <input name='password' #pass='ngModel' [(ngModel)]='password' type="password" required>
+
+      <input type="submit" value="Submit" [disabled]='form.invalid'>
+    </form>
+  </div>
+
+  <h2>{{stateTitle}}</h2>
+</div>

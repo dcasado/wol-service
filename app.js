@@ -10,8 +10,6 @@ var exec = require('child_process').exec;
 
 var app = express();
 
-var computerWoken;
-
 app.use(bodyParser.json());
 
 // set static directories
@@ -30,6 +28,11 @@ app.get('/computers', function (req, res) {
     res.send(computers);
 });
 
+app.get('/computers/:computer', function (req, res) {
+    let computer = req.params.computer;
+    ping(config.computers[computer].ip, res);
+});
+
 app.post('/wake', function (req, res) {
     try {
         var computer = req.body.computer;
@@ -37,10 +40,9 @@ app.post('/wake', function (req, res) {
         if (config.hash_password == crypto.createHash(config.hashMethod).update(password).digest('hex')) {
             var mac = config.computers[computer].mac;
             wol.wake(mac);
-            computerWoken = computer;
 
-            res.contentType('application/json');
-            res.status(200).send({ 'message': 'Password ok' });
+            let count = 0;
+            pingRec(config.computers[computer].ip, res, ++count);
         } else {
             res.status(403).send({ 'message': 'Wrong password' });
         }
@@ -50,25 +52,32 @@ app.post('/wake', function (req, res) {
     }
 });
 
-app.get('/ping', function (req, res) {
-    try {
-        pingIp(config.computers[computerWoken].ip, res);
-    } catch (err) {
-        computerWoken = undefined;
+function pingRec(ip, res, count) {
+    console.log(count);
+    if (count < config.pingCounter) {
+        exec('ping -c 1 ' + ip, function (error, stdout, stderr) {
+            if (error !== null) {
+                console.log('more error');
+                pingRec(ip, res, ++count);
+            } else {
+                res.contentType('application/json');
+                res.status(200).send({ "state": config.awake });
+            }
+        });
+    } else {
         res.contentType('application/json');
-        res.status(400).send({ 'message': 'Bad request' });
+        res.status(200).send({ "state": config.asleep });
     }
-});
+}
 
-function pingIp(ip, res) {
-    exec('ping -c 1 ' + ip, function (error, stdout, stderr) {
+function ping(ip, res) {
+    exec('ping -c 1 -W 2 ' + ip, function (error, stdout, stderr) {
         if (error !== null) {
-            res.contentType('application/json');
-            res.status(200).send({ "state": config.asleep });
+            console.log('asleep');
+            res.status(200).send({ 'state': config.asleep });
         } else {
-            res.contentType('application/json');
-            res.status(200).send({ "state": config.awake });
-            computerWoken = undefined;
+            console.log('awake');
+            res.status(200).send({ 'state': config.awake });
         }
     });
 }

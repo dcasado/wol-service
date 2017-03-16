@@ -6,12 +6,15 @@ var config = {};
 config.hashMethod = 'sha256';
 
 // Hash of the passphrase that will be used to wake devices. 
-config.hash_password = '';
+config.hash_password = 'b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79';
 
-config.asleep = '0';
-config.awake = '1';
+config.asleep = 0;
+config.awake = 1;
 
-//Computers that will be available to wake. Add or remove as many as you want.
+// Number of pings that will be executed
+config.pingCounter = 15;
+
+// Computers that will be available to wake. Add or remove as many as you want.
 config.computers = [
   {
     name : "PC1",

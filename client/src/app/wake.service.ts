@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
-import { WakeResponse } from './wake-response';
+import { ServerResponse } from './server-response';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class WakeService {
 
   private URL: string = '/wake';
 
-  subResponse: Subject<WakeResponse> = new Subject();
+  subResponse: Subject<ServerResponse> = new Subject();
 
   constructor(private http: Http) { }
 
@@ -21,7 +21,7 @@ export class WakeService {
 
   private extractData(res: Response) {
     let body = res.json();
-    return new WakeResponse(res.status, body.message);
+    return new ServerResponse(res.status, body);
   }
 
 }
