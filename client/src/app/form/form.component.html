@@ -1,0 +1,11 @@
+<form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
+
+  <select [(ngModel)]='computer' #name='ngModel' name='computer' required>
+    <option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</option>
+  </select>
+
+  <label for="password">Password: </label>
+  <input name='password' #pass='ngModel' [(ngModel)]='password' type="password" required>
+
+  <input type="submit" value="Submit" [disabled]='form.invalid'>
+</form>
