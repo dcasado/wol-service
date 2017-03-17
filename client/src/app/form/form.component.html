@@ -1,21 +1,36 @@
-<div>
-  <h1>List of computers</h1>
-
-  <select [(ngModel)]='computer' (change)='onChange()' name='computer'>
-    <option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</option>
-  </select>
-</div>
-
-<div>
-  <div [hidden]='computerState == 1'>
-    <form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
-
-      <label for="password">Password: </label>
-      <input name='password' #pass='ngModel' [(ngModel)]='password' type="password" required>
-
-      <input type="submit" value="Submit" [disabled]='form.invalid'>
-    </form>
+<div fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
+  <div fxFill>
+    <md-toolbar color="primary">
+      <div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
+        <div fxFlex>
+          <span>List of computers</span>
+        </div>
+        <div fxFlex>
+          <md-select [(ngModel)]='computer' (change)='onChange()' name='computer'>
+            <md-option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</md-option>
+          </md-select>
+        </div>
+      </div>
+    </md-toolbar>
   </div>
 
-  <h2>{{stateTitle}}</h2>
+  <div fxFlexAlign="center">
+    <form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
+      <md-card>
+        <md-card-header>
+          <md-card-title>{{stateTitle}}</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <div [hidden]='computerState == 1'>
+            <md-input-container>
+              <input mdInput placeholder="Passphrase" name='password' #pass='ngModel' [(ngModel)]='password' type="password" required>
+            </md-input-container>
+          </div>
+        </md-card-content>
+        <md-card-actions>
+          <button md-raised-button color="accent" type="submit" [disabled]='form.invalid'>Submit</button>
+        </md-card-actions>
+      </md-card>
+    </form>
+  </div>
 </div>

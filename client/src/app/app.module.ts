@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { ComputerService } from './computer.service';
 import { WakeService } from './wake.service';
 
@@ -21,7 +24,9 @@ import { PingComponent } from './ping/ping.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule,
+    FlexLayoutModule
   ],
   providers: [
     ComputerService,

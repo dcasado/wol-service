@@ -6,7 +6,7 @@ var config = {};
 config.hashMethod = 'sha256';
 
 // Hash of the passphrase that will be used to wake devices. 
-config.hash_password = 'b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79';
+config.hash_password = '';
 
 config.asleep = 0;
 config.awake = 1;
