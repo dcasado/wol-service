@@ -39,10 +39,10 @@ export class FormComponent implements OnInit {
   onSubmit() {
     this.stateTitle = 'Waking... this could last a couple of minutes';
     this.wakeRequest = this.wakeService.wake(this.computer, this.password).subscribe(serverResponse => {
-      if (serverResponse.status == 200) {
+      if (!serverResponse.body.message) {
         this.computerService.computerState.next(serverResponse.body.state);
-      } else if (serverResponse.status == 403) {
-        console.log(serverResponse.body.message);
+      } else {
+        this.stateTitle = serverResponse.body.message;
       }
     });
     this.clearForm();

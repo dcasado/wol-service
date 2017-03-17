@@ -44,7 +44,7 @@ app.post('/wake', function (req, res) {
             let count = 0;
             pingRec(config.computers[computer].ip, res, ++count);
         } else {
-            res.status(403).send({ 'message': 'Wrong password' });
+            res.status(200).send({ 'message': 'Wrong password' });
         }
     } catch (err) {
         res.contentType('application/json');
@@ -53,11 +53,9 @@ app.post('/wake', function (req, res) {
 });
 
 function pingRec(ip, res, count) {
-    console.log(count);
     if (count < config.pingCounter) {
         exec('ping -c 1 ' + ip, function (error, stdout, stderr) {
             if (error !== null) {
-                console.log('more error');
                 pingRec(ip, res, ++count);
             } else {
                 res.contentType('application/json');
@@ -73,10 +71,8 @@ function pingRec(ip, res, count) {
 function ping(ip, res) {
     exec('ping -c 1 -W 2 ' + ip, function (error, stdout, stderr) {
         if (error !== null) {
-            console.log('asleep');
             res.status(200).send({ 'state': config.asleep });
         } else {
-            console.log('awake');
             res.status(200).send({ 'state': config.awake });
         }
     });
