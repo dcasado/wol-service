@@ -1,8 +1,7 @@
 # Remote-Wake-On-Lan-Server-Client
 Sever and client to remote wake any device in your lan. Inspired by https://github.com/sciguy14/Remote-Wake-Sleep-On-LAN-Server
 
-The server is a simple [Node](https://nodejs.org/) application to handle the request. The client is an [Angular](https://angular.io/)
-application with a simple (ugly) interface.
+The server is a simple [Node](https://nodejs.org/) application to handle the request made with [Express](https://expressjs.com/). The client is an [Angular](https://angular.io/) application with a simple interface made with [Angular Material](https://github.com/angular/material2) and [Flex Layout](https://github.com/angular/flex-layout).
 
 ## Build the project
 
