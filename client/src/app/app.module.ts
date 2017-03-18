@@ -12,13 +12,15 @@ import { WakeService } from './wake.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormComponent } from './form/form.component';
-import { PingComponent } from './ping/ping.component';
+import { SelectComponent } from './select/select.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
-    PingComponent
+    SelectComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

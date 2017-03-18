@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ComputerService } from '../computer.service';
 import { WakeService } from '../wake.service';
 
-import { Computer } from '../computer';
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -14,14 +12,9 @@ export class FormComponent implements OnInit {
   private computer: number = 0;
   private password: string = '';
 
-  private computerList: Computer[] = new Array<Computer>();
-
-  private computerState: number = 0;
+  private computerChange: boolean = false;
 
   private stateTitle: string = 'Waiting for response';
-
-  private stateRequest;
-  private wakeRequest;
 
   constructor(
     private computerService: ComputerService,
@@ -29,22 +22,24 @@ export class FormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.computerService.getAll().subscribe(computers => this.computerList = computers);
-
+    this.computerService.computerSelected.subscribe(selected => this.computer = selected);
     this.computerService.computerState.subscribe(state => this.updateState(state));
 
-    this.stateRequest = this.computerService.getComputerState(this.computer).subscribe(state => this.computerService.computerState.next(state));
+    this.computerService.computerChange.subscribe(change => this.computerChange = change);
   }
 
   onSubmit() {
     this.stateTitle = 'Waking... this could last a couple of minutes';
-    this.wakeRequest = this.wakeService.wake(this.computer, this.password).subscribe(serverResponse => {
-      if (!serverResponse.body.message) {
-        this.computerService.computerState.next(serverResponse.body.state);
-      } else {
-        this.stateTitle = serverResponse.body.message;
+    let wakeRequest = this.wakeService.wake(this.computer, this.password).subscribe(
+      serverResponse => {
+        if (!serverResponse.body.message) {
+          this.computerService.computerState.next(serverResponse.body.state);
+        } else {
+          this.stateTitle = serverResponse.body.message;
+        }
       }
-    });
+    );
+    this.wakeService.wakeRequest.next(wakeRequest);
     this.clearForm();
   }
 
@@ -52,19 +47,7 @@ export class FormComponent implements OnInit {
     this.password = null;
   }
 
-  onChange() {
-    if (this.stateRequest) {
-      this.stateRequest.unsubscribe();
-    }
-    if (this.wakeRequest){
-      this.wakeRequest.unsubscribe();
-    }
-    this.stateTitle = 'Waiting for response';
-    this.stateRequest = this.computerService.getComputerState(this.computer).subscribe(state => this.computerService.computerState.next(state));
-  }
-
   updateState(state: number) {
-    this.computerState = state;
     if (state == 1) {
       this.stateTitle = "Device is awake";
     } else {

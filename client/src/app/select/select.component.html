@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex.xs="90" fxFlex.sm="50" fxFlex.md="50" fxFlex.lg="30" fxFlex.xl="20">
+    <md-card>
+      <md-card-header>
+        <md-card-title>Choose computer to wake</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <md-select [(ngModel)]='computer' (change)='onChange()' name='computer'>
+          <md-option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</md-option>
+        </md-select>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

@@ -9,7 +9,10 @@ export class ComputerService {
 
   private URL: string = "/computers";
 
+  computerSelected: Subject<number> = new Subject();
   computerState: Subject<number> = new Subject();
+
+  computerChange: Subject<boolean> = new Subject();
 
   constructor(private http: Http) { }
 

@@ -9,6 +9,7 @@ export class WakeService {
 
   private URL: string = '/wake';
 
+  wakeRequest : Subject<any> = new Subject();
   subResponse: Subject<ServerResponse> = new Subject();
 
   constructor(private http: Http) { }

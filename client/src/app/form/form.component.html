@@ -1,20 +1,6 @@
-<div fxLayout="column" fxLayoutGap="16px" fxLayoutAlign="center">
-  <div fxFill>
-    <md-toolbar color="primary">
-      <div fxLayout="row" fxLayoutGap="20px" fxLayoutWrap>
-        <div fxFlex>
-          <span>List of computers</span>
-        </div>
-        <div fxFlex>
-          <md-select [(ngModel)]='computer' (change)='onChange()' name='computer'>
-            <md-option *ngFor="let computer of computerList; let i = index" [value]="i">{{computer.name}}</md-option>
-          </md-select>
-        </div>
-      </div>
-    </md-toolbar>
-  </div>
-
-  <div fxFlexAlign="center">
+<div fxLayout="row" fxLayoutAlign="center">
+  <app-loading [computerChange]="computerChange"></app-loading>
+  <div [hidden]="!computerChange" fxFlex.xs="90" fxFlex.sm="50" fxFlex.md="50" fxFlex.lg="30" fxFlex.xl="20">
     <form #form='ngForm' (ngSubmit)='onSubmit()' novalidate>
       <md-card>
         <md-card-header>
