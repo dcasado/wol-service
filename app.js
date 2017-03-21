@@ -30,7 +30,12 @@ app.get('/computers', function (req, res) {
 
 app.get('/computers/:computer', function (req, res) {
     let computer = req.params.computer;
-    ping(config.computers[computer].ip, res);
+    try {
+        ping(config.computers[computer].ip, res);
+    } catch (err) {
+        res.contentType('application/json');
+        res.status(400).send({ 'message': 'Bad request' });
+    }
 });
 
 app.post('/wake', function (req, res) {
