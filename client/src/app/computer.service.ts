@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ComputerService {
 
-  private URL: string = "/computers";
+  private URL = '/computers';
 
   computerSelected: Subject<number> = new Subject();
   computerState: Subject<number> = new Subject();
@@ -21,8 +21,8 @@ export class ComputerService {
   }
 
   private parse(res: Response) {
-    let body = res.json();
-    let computerList: Computer[] = new Array<Computer>();
+    const body = res.json();
+    const computerList: Computer[] = new Array<Computer>();
     body.map(computer => computerList.push(new Computer(computer.name, computer.ip, computer.mac)));
     return computerList;
   }

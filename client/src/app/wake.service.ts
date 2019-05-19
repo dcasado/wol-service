@@ -7,7 +7,7 @@ import 'rxjs/Rx';
 @Injectable()
 export class WakeService {
 
-  private URL: string = '/wake';
+  private URL = '/wake';
 
   wakeRequest : Subject<any> = new Subject();
   subResponse: Subject<ServerResponse> = new Subject();
@@ -15,13 +15,13 @@ export class WakeService {
   constructor(private http: Http) { }
 
   wake(computer: number, password: string) {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    // const headers = new Headers({ 'Content-Type': 'application/json' });
+    // let options = new RequestOptions({ headers: headers });
     return this.http.post(this.URL, { computer, password }).map(this.extractData);
   }
 
   private extractData(res: Response) {
-    let body = res.json();
+    const body = res.json();
     return new ServerResponse(res.status, body);
   }
 

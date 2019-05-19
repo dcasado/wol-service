@@ -1,3 +1,4 @@
+const fs = require('fs');
 
 var config = {};
 
@@ -6,7 +7,7 @@ var config = {};
 config.hashMethod = 'sha256';
 
 // Hash of the passphrase that will be used to wake devices. 
-config.hash_password = '';
+config.hash_password = process.env.WAKE_PASSWORD_HASH;
 
 config.asleep = 0;
 config.awake = 1;
@@ -15,17 +16,6 @@ config.awake = 1;
 config.pingCounter = 15;
 
 // Computers that will be available to wake. Add or remove as many as you want.
-config.computers = [
-  {
-    name : "PC1",
-    ip : '0.0.0.0',
-    mac : '00:00:00:00:00:00'
-  },
-  {
-    name : "PC2",
-    ip : '0.0.0.0',
-    mac : '00:00:00:00:00:00'
-  }
-];
+config.computers = JSON.parse(fs.readFileSync('computers.json'));
 
 module.exports = config;

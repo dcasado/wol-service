@@ -13,10 +13,10 @@ var app = express();
 app.use(bodyParser.json());
 
 // set static directories
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 app.get('/', function (req, res) {
-    res.sendFile('index.html');
+    res.sendFile(path.join(__dirname, 'client/index.html'));
 });
 
 app.get('/computers', function (req, res) {
@@ -83,6 +83,7 @@ function ping(ip, res) {
     });
 }
 
-app.listen(3000, function () {
+const port = process.env.PORT;
+app.listen(port, function () {
     console.log('Listening on port 3000');
 });
