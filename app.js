@@ -3,21 +3,12 @@ const wol = require('wake_on_lan');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const config = require('./config');
-const path = require("path");
-const util = require("util");
 
 var exec = require('child_process').exec;
 
 var app = express();
 
 app.use(bodyParser.json());
-
-// set static directories
-app.use(express.static(path.join(__dirname, 'client')));
-
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/index.html'));
-});
 
 app.get('/computers', function (req, res) {
     let computers = [];
@@ -44,7 +35,9 @@ app.post('/wake', function (req, res) {
         var password = req.body.password;
         if (config.hash_password == crypto.createHash(config.hashMethod).update(password).digest('hex')) {
             var mac = config.computers[computer].mac;
-            wol.wake(mac);
+            wol.wake(mac, { address: "192.168.0.255" }, (error) => {
+                console.log(error)
+            });
 
             let count = 0;
             pingRec(config.computers[computer].ip, res, ++count);
