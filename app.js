@@ -4,10 +4,18 @@ const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const config = require('./config');
 
-var exec = require('child_process').exec;
+const cors = require('cors');
 
-var app = express();
+const exec = require('child_process').exec;
 
+const app = express();
+
+var corsOptions = {
+    origin: config.corsOrigin,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get('/computers', function (req, res) {
@@ -76,7 +84,7 @@ function ping(ip, res) {
     });
 }
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 app.listen(port, function () {
-    console.log('Listening on port 3000');
+    console.log(`Listening on port ${port}`);
 });

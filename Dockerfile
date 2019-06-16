@@ -11,7 +11,7 @@ RUN npm i npm@latest -g
 
 WORKDIR /home/node/app
 
-COPY ./package.json ./
+COPY ./package*.json ./
 
 RUN npm install \
     && npm ci --only=production
@@ -21,7 +21,8 @@ COPY ./app.js ./
 COPY ./computers.json ./
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod 744 /usr/local/bin/docker-entrypoint.sh
-RUN echo $PATH
+
+ENV CORS_ORIGIN='http://example.com,http://example2.es'
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

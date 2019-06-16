@@ -18,4 +18,7 @@ config.pingCounter = 15;
 // Computers that will be available to wake. Add or remove as many as you want.
 config.computers = JSON.parse(fs.readFileSync('computers.json'));
 
+// Cors domains
+config.corsOrigin = process.env.CORS_ORIGIN.split(',');
+
 module.exports = config;
